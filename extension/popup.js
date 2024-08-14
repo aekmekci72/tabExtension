@@ -1,7 +1,21 @@
+// popup.js
 document.addEventListener('DOMContentLoaded', function () {
     const startSessionButton = document.getElementById('startSession');
     const endSessionButton = document.getElementById('endSession');
     const aboutButton = document.getElementById('about');
+
+    function updateButtonVisibility(isSessionActive) {
+        startSessionButton.style.display = isSessionActive ? 'none' : 'inline-block';
+        endSessionButton.style.display = isSessionActive ? 'inline-block' : 'none';
+    }
+
+    chrome.runtime.sendMessage({ type: 'GET_SESSION_STATUS' }, (response) => {
+        if (chrome.runtime.lastError) {
+            console.error("Error getting session status:", chrome.runtime.lastError);
+        } else {
+            updateButtonVisibility(response.isSessionActive);
+        }
+    });
 
     startSessionButton.addEventListener('click', function () {
         chrome.runtime.sendMessage({ type: 'OPEN_TAB_SELECTION' }, (response) => {
@@ -15,12 +29,16 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.runtime.sendMessage({ type: 'END_SESSION' }, (response) => {
             if (chrome.runtime.lastError) {
                 console.error("Error ending session:", chrome.runtime.lastError);
-            } else {
             }
         });
     });
-    
+
     aboutButton.addEventListener('click', function () {
-        alert('FocusWeb helps you manage your browsing sessions efficiently.');
+        chrome.windows.create({
+            url: chrome.runtime.getURL('about.html'),
+            type: 'popup',
+            width: 400,
+            height: 500
+        });
     });
 });
