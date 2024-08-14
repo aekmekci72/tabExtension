@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
         summaryHtml += '</ul>';
         summaryContent.innerHTML = summaryHtml;
 
-        // Draw the pie chart
         drawPieChart(allowedTime, unallowedTime);
     });
 });
@@ -31,24 +30,20 @@ function drawPieChart(allowedTime, unallowedTime) {
     const allowedPercentage = allowedTime / total;
     const unallowedPercentage = unallowedTime / total;
 
-    // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw allowed section
     ctx.beginPath();
-    ctx.moveTo(150, 150); // Center of the pie chart
+    ctx.moveTo(150, 150);
     ctx.arc(150, 150, 150, 0, 2 * Math.PI * allowedPercentage);
     ctx.fillStyle = '#4caf50';
     ctx.fill();
 
-    // Draw unallowed section
     ctx.beginPath();
-    ctx.moveTo(150, 150); // Center of the pie chart
+    ctx.moveTo(150, 150); 
     ctx.arc(150, 150, 150, 2 * Math.PI * allowedPercentage, 2 * Math.PI);
     ctx.fillStyle = '#f44336';
     ctx.fill();
 
-    // Draw legend
     drawLegend(allowedTime, unallowedTime);
 }
 

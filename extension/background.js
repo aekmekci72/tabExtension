@@ -131,12 +131,10 @@ function endSession(sendResponse) {
 
     const sessionDuration = Date.now() - sessionStartTime;
 
-    // Add time for the last tab if needed
     if (previousTabId && tabTimes[previousTabId]) {
         tabTimes[previousTabId].time += Date.now() - tabTimes[previousTabId].startTime;
     }
 
-    // Verify that time is being tracked correctly
     console.log('Tab Times:', tabTimes);
     console.log('Session Duration:', sessionDuration);
 
